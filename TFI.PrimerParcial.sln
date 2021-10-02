@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial", "TFI.PrimerParcial\TFI.PrimerParcial.csproj", "{162205C0-A2D8-4A13-BD2E-F31F12B6D48E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFI.PrimerParcial.Domain", "TFI.PrimerParcial.Domain\TFI.PrimerParcial.Domain.csproj", "{EE073995-203F-4A15-AE2A-EDF561B9D33C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.Domain", "TFI.PrimerParcial.Domain\TFI.PrimerParcial.Domain.csproj", "{EE073995-203F-4A15-AE2A-EDF561B9D33C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFI.PrimerParcial.Providers", "TFI.PrimerParcial.Providers\TFI.PrimerParcial.Providers.csproj", "{34E8A3C8-961C-47DC-BD37-405C9DC475DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.Source", "TFI.PrimerParcial.Providers\TFI.PrimerParcial.Source.csproj", "{34E8A3C8-961C-47DC-BD37-405C9DC475DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rabbit.Common", "Rabbit.Common\Rabbit.Common.csproj", "{90F54BD5-C453-40A0-9F1E-23A488203A39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Common", "Rabbit.Common\Rabbit.Common.csproj", "{90F54BD5-C453-40A0-9F1E-23A488203A39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFI.PrimerParcial.ReceivingWorker", "TFI.PrimerParcial.ReceivingWorker\TFI.PrimerParcial.ReceivingWorker.csproj", "{DC4BC31E-B034-475E-9009-D4BEB983E913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{90F54BD5-C453-40A0-9F1E-23A488203A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90F54BD5-C453-40A0-9F1E-23A488203A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90F54BD5-C453-40A0-9F1E-23A488203A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC4BC31E-B034-475E-9009-D4BEB983E913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC4BC31E-B034-475E-9009-D4BEB983E913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC4BC31E-B034-475E-9009-D4BEB983E913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC4BC31E-B034-475E-9009-D4BEB983E913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
