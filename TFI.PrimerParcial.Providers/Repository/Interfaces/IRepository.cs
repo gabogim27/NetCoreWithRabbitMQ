@@ -1,4 +1,6 @@
-﻿namespace TFI.PrimerParcial.Source.Repository.Interfaces
+﻿using TFI.PrimerParcial.Domain;
+
+namespace TFI.PrimerParcial.Source.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {
@@ -6,5 +8,6 @@
 
         void Update(T entity);
 
+        FileUploadInfo GetByName(string name);
     }
 }

@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
+using TFI.PrimerParcial.Source.Repository.Interfaces;
 
 namespace TFI.PrimerParcial.Controllers
 {
@@ -11,11 +13,13 @@ namespace TFI.PrimerParcial.Controllers
     {
         private readonly IBus bus;
         private readonly IConfiguration config;
+        private readonly IRepository<FileUploadInfo> repository;
 
-        public FileController(IBus bus, IConfiguration config)
+        public FileController(IBus bus, IConfiguration config, IRepository<FileUploadInfo> repository)
         {
             this.bus = bus;
             this.config = config;
+            this.repository = repository;
         }
 
         [HttpPost("UploadFiles")]
@@ -32,7 +36,32 @@ namespace TFI.PrimerParcial.Controllers
 
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult<bool> GetDocumentStatus(string fileName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    return BadRequest();
+                }
+
+                var fileData = repository.GetByName(fileName);
+
+                if (fileData == null)
+                {
+                    return Ok("Fallo en la impresion");
+                }
+
+                return Ok(fileData);
+            }
+            catch (Exception ex)
             {
                 throw;
             }
