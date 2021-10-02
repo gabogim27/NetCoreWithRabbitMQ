@@ -1,38 +1,32 @@
 ﻿using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.ComponentModel;
 
 namespace TFI.PrimerParcial.ReceivingWorker
 {
     class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            //ver como inicializar el consumer en una app de consola
+            CreateHostBuilder(args).Build().Run();
         }
 
-    private static void Initialize(IServiceCollection services)
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumer<ServiceBusConsumer>();
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
                 {
-                    cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                    services.AddMassTransit(x =>
                     {
-                        h.Username("guest");
-                        h.Password("guest");
+                        x.AddConsumer<ServiceBusConsumer>();
+
+                        x.UsingRabbitMq((context, cfg) =>
+                        {
+                            cfg.ConfigureEndpoints(context);
+                        });
                     });
-                    cfg.ReceiveEndpoint("ticketQueue", ep =>
-                    {
-                        ep.PrefetchCount = 16;
-                        //ep.UseMessageRetry(r => r.ConnectRetryObserver());
-                        ep.ConfigureConsumer<ServiceBusConsumer>(provider);
-                    });
-                }));
-            });
-            services.AddMassTransitHostedService();
-        }
+                    services.AddMassTransitHostedService();
+
+                    //services.AddHostedService<Worker>();
+                });
     }
 }
