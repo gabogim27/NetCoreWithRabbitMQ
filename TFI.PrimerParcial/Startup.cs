@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rabbit.Common.Interfaces;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TFI.PrimerParcial.Domain;
+using TFI.PrimerParcial.Pusblihsers;
 
 namespace TFI.PrimerParcial
 {
@@ -24,6 +28,16 @@ namespace TFI.PrimerParcial
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services
+                .AddSingleton<IProducer<FileProperties>, FileMessagePublisher>()
+                .AddSingleton(serviceProvider =>
+                {
+                    var uri = new Uri("amqp://guest:guest@rabbit:5672/CUSTOM_HOST");
+                    return new ConnectionFactory
+                    {
+                        Uri = uri
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
