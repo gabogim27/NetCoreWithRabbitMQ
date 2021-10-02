@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.Source", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Common", "Rabbit.Common\Rabbit.Common.csproj", "{90F54BD5-C453-40A0-9F1E-23A488203A39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFI.PrimerParcial.ReceivingWorker", "TFI.PrimerParcial.ReceivingWorker\TFI.PrimerParcial.ReceivingWorker.csproj", "{DC4BC31E-B034-475E-9009-D4BEB983E913}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.FileConsumer", "TFI.PrimerParcial.ReceivingWorker\TFI.PrimerParcial.FileConsumer.csproj", "{DC4BC31E-B034-475E-9009-D4BEB983E913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,12 +1,11 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TFI.PrimerParcial.ReceivingWorker
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
@@ -17,7 +16,7 @@ namespace TFI.PrimerParcial.ReceivingWorker
                 {
                     services.AddMassTransit(x =>
                     {
-                        x.AddConsumer<ServiceBusConsumer>();
+                        x.AddConsumer<FileConsumer>();
 
                         x.UsingRabbitMq((context, cfg) =>
                         {
@@ -25,8 +24,6 @@ namespace TFI.PrimerParcial.ReceivingWorker
                         });
                     });
                     services.AddMassTransitHostedService();
-
-                    //services.AddHostedService<Worker>();
                 });
     }
 }
