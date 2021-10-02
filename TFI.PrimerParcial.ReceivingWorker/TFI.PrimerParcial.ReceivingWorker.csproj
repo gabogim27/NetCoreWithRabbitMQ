@@ -5,4 +5,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TFI.PrimerParcial.Domain\TFI.PrimerParcial.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

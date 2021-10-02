@@ -10,6 +10,8 @@ namespace TFI.PrimerParcial.Domain
 
         public DateTime PrintDate { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime DatabaseUpdated { get; set; }
+
+        public string Status { get; set; }
     }
 }

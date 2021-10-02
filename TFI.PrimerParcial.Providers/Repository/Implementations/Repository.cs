@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Source.Data;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
 
@@ -16,36 +15,6 @@ namespace TFI.PrimerParcial.Source.Repository.Implementations
             this.context = context;
         }
 
-        public async Task<int> CountAsync(ISpecification<T> spec)
-        {
-            return await ApplySpecification(spec).CountAsync();
-        }
-
-        public async Task<IReadOnlyList<T>> ListAllAsync()
-        {
-            return await context.Set<T>().ToListAsync();
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await context.Set<T>().FindAsync(id);
-        }
-
-        public async Task<T> GetEntityWithSpec(ISpecification<T> specification)
-        {
-            return await ApplySpecification(specification).FirstOrDefaultAsync();
-        }
-
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> specification)
-        {
-            return await ApplySpecification(specification).ToListAsync();
-        }
-
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
-        {
-            return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsQueryable(), spec);
-        }
-
         public void Add(T entity)
         {
             context.Set<T>().Add(entity);
@@ -58,9 +27,9 @@ namespace TFI.PrimerParcial.Source.Repository.Implementations
             context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(T entity)
+        public FileUploadInfo GetByName(string name)
         {
-            context.Set<T>().Remove(entity);
+            return context.FileUploadInfo.Where(x => x.FileName == name).FirstOrDefault();
         }
     }
 }

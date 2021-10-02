@@ -11,7 +11,7 @@ namespace TFI.PrimerParcial.Source.Config
             builder.Property(f => f.Id).IsRequired();
             builder.Property(f => f.FileName).IsRequired().HasMaxLength(100);
             builder.Property(f => f.PrintDate).IsRequired();
-            builder.Property(f => f.TimeStamp).IsRequired();
+            builder.Property(f => f.DatabaseUpdated).IsRequired();
         }
     }
 }
