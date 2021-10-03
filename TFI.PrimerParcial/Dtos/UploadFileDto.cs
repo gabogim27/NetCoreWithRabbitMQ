@@ -9,6 +9,7 @@ namespace TFI.PrimerParcial.Dtos
         public string FileName { get; set; }
         public string FileSize { get; set; }
         public string FileType { get; set; }
+
         //public IList<byte[]> Files { get; set; }
     }
 }

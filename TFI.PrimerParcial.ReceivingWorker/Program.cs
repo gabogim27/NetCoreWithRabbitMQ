@@ -16,7 +16,6 @@ namespace TFI.PrimerParcial.ReceivingWorker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-
                     services.AddMassTransit(x =>
                     {
                         x.AddConsumer<FileConsumer>();
