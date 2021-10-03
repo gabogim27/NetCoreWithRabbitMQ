@@ -20,19 +20,20 @@ namespace TFI.PrimerParcial.ReceivingWorker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddTransient<IPrinter, Printer>();
-                    services.AddTransient<IWorkerService, WorkerService>();
+                    services.AddTransient(typeof(IWorkerService<>), typeof(WorkerService<>));
                     services.AddMassTransit(x =>
                     {
                         x.AddConsumer<FileConsumer>();
 
-                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
                         {
-                            cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                            config.Host(new Uri("rabbitmq://localhost"), h =>
                             {
                                 h.Username("guest");
                                 h.Password("guest");
                             });
-                            cfg.ReceiveEndpoint("fileQueue", ep =>
+
+                            config.ReceiveEndpoint("fileQueue", ep =>
                             {
                                 ep.PrefetchCount = 16;
                                 ep.UseMessageRetry(r => r.Interval(2, 100));

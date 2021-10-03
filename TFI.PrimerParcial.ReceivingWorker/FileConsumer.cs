@@ -1,7 +1,7 @@
-﻿using MassTransit;
+﻿using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
 using TFI.PrimerParcial.FileConsumer.Printer;
@@ -13,28 +13,36 @@ namespace TFI.PrimerParcial.ReceivingWorker
     {
         private readonly ILogger<FileConsumer> logger;
         private readonly IPrinter printer;
-        private readonly IWorkerService worker;
+        private readonly IWorkerService<FileUploadInfo> worker;
+        private readonly IConfiguration config;
 
-        public FileConsumer(ILogger<FileConsumer> logger, IPrinter printer, IWorkerService worker)
+        public FileConsumer(ILogger<FileConsumer> logger, IPrinter printer, IWorkerService<FileUploadInfo> worker, IConfiguration config)
         {
             this.logger = logger;
             this.printer = printer;
             this.worker = worker;
+            this.config = config;
         }
 
         public Task Consume(ConsumeContext<UploadFileDto> context)
         {
             if (context != null)
             {
-                logger.LogInformation($"Received file: {context.Message.FileName}");
+                logger.LogInformation($"Received file: {context.Message.FileName} to FileConsumer.");
 
                 var data = context.Message;
 
-                //var result = printer.SendToPrint(data);
+                var fileUpload = new FileUploadInfo()
+                {
+                    FileName = data.FileName
+                };
 
-                //data.Status = result ? FileUploadInfo.PrintStatus.Ok : FileUploadInfo.PrintStatus.Failed;
+                var result = printer.SendToPrint(fileUpload);
 
-                //worker.SendToQueue(data);
+                if (result)
+                {
+                    worker.SendToQueue(fileUpload, config["RabbitMQ:DatabaseQueue"]);
+                }
             }
 
             return Task.CompletedTask;
