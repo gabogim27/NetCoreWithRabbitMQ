@@ -37,7 +37,7 @@ namespace TFI.PrimerParcial.ReceivingWorker
 
                 var result = printer.SendToPrint(fileUpload);
 
-                if (true)
+                if (result)
                 {
                     logger.LogInformation($"Sending data in databaseQueue, priority {fileUpload.Priority}");
                     publisher.Publish(fileUpload);
