@@ -11,9 +11,9 @@ namespace TFI.PrimerParcial.Controllers
     public class FileController : BaseApiController
     {
         private readonly IRepository<FileUploadInfo> repository;
-        private readonly IWorker worker;
+        private readonly IWorkerService worker;
 
-        public FileController(IRepository<FileUploadInfo> repository, IWorker worker)
+        public FileController(IRepository<FileUploadInfo> repository, IWorkerService worker)
         {
             this.repository = repository;
             this.worker = worker;

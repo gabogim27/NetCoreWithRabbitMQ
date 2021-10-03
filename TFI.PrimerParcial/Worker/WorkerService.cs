@@ -3,16 +3,15 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using TFI.PrimerParcial.Dtos;
-using TFI.PrimerParcial.Worker;
 
-namespace TFI.PrimerParcial.ReceivingWorker
+namespace TFI.PrimerParcial.Worker
 {
-    public class Worker : IWorker
+    public class WorkerService : IWorkerService
     {
         private readonly IBus bus;
         private readonly IConfiguration config;
 
-        public Worker(IBus bus, IConfiguration config)
+        public WorkerService(IBus bus, IConfiguration config)
         {
             this.bus = bus;
             this.config = config;

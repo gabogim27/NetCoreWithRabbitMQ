@@ -7,6 +7,8 @@ namespace TFI.PrimerParcial.Dtos
     {
         public int Priority { get; set; }
 
-        public List<Byte[]> Files { get; set; }
+        //public List<Byte[]> Files { get; set; }
+
+        public string FileName { get; set; }
     }
 }
