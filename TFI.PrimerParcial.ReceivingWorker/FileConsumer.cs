@@ -28,7 +28,7 @@ namespace TFI.PrimerParcial.ReceivingWorker
         {
             if (context != null)
             {
-                logger.LogInformation($"Received file: {context.Message.FileName}");
+                logger.LogInformation($"Received file: {context.Message.FileName} to FileConsumer.");
 
                 var data = context.Message;
 
