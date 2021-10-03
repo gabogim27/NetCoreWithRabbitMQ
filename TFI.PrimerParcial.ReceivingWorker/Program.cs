@@ -25,14 +25,15 @@ namespace TFI.PrimerParcial.ReceivingWorker
                     {
                         x.AddConsumer<FileConsumer>();
 
-                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
                         {
-                            cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                            config.Host(new Uri("rabbitmq://localhost"), h =>
                             {
                                 h.Username("guest");
                                 h.Password("guest");
                             });
-                            cfg.ReceiveEndpoint("fileQueue", ep =>
+
+                            config.ReceiveEndpoint("fileQueue", ep =>
                             {
                                 ep.PrefetchCount = 16;
                                 ep.UseMessageRetry(r => r.Interval(2, 100));
