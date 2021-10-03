@@ -14,7 +14,7 @@ namespace TFI.PrimerParcial.Source.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FileName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PrintDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DatabaseUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

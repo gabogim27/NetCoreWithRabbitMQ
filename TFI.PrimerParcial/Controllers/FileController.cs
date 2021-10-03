@@ -26,7 +26,7 @@ namespace TFI.PrimerParcial.Controllers
         {
             try
             {
-                if (uploadFileDto == null || uploadFileDto.Priority <= 0 || uploadFileDto.Files == null || uploadFileDto.Files.Count == 0)
+                if (uploadFileDto == null || uploadFileDto.Priority <= 0)
                 {
                     return BadRequest();
                 }

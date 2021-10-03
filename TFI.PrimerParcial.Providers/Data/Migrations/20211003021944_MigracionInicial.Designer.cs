@@ -10,7 +10,7 @@ using TFI.PrimerParcial.Source.Data;
 namespace TFI.PrimerParcial.Source.Data.Migrations
 {
     [DbContext(typeof(FileInfoDbContext))]
-    [Migration("20211002032620_MigracionInicial")]
+    [Migration("20211003021944_MigracionInicial")]
     partial class MigracionInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,15 +27,15 @@ namespace TFI.PrimerParcial.Source.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DatabaseUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("PrintDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
