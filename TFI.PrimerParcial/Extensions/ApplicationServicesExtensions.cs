@@ -12,7 +12,7 @@ namespace TFI.PrimerParcial.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IWorkerService, WorkerService>();
+            services.AddTransient(typeof(IWorkerService<>), typeof(WorkerService<>));
 
             services.AddMassTransit(x =>
             {

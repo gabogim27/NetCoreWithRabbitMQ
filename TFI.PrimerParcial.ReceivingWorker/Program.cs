@@ -20,7 +20,7 @@ namespace TFI.PrimerParcial.ReceivingWorker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddTransient<IPrinter, Printer>();
-                    services.AddTransient<IWorkerService, WorkerService>();
+                    services.AddTransient(typeof(IWorkerService<>), typeof(WorkerService<>));
                     services.AddMassTransit(x =>
                     {
                         x.AddConsumer<FileConsumer>();

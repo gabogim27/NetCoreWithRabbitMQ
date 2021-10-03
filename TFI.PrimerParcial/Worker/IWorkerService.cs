@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using TFI.PrimerParcial.Dtos;
 
 namespace TFI.PrimerParcial.Worker
 {
-    public interface IWorkerService
+    public interface IWorkerService<T> where T : class
     {
-        Task SendToQueue(UploadFileDto uploadFileDto);
+        Task SendToQueue(T data, string queue);
     }
 }

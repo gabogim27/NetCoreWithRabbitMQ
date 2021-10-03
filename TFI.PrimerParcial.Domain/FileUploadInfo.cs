@@ -4,7 +4,7 @@ namespace TFI.PrimerParcial.Domain
 {
     public class FileUploadInfo
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
 
         public string FileName { get; set; }
 

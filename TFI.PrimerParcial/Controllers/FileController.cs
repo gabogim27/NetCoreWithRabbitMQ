@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
@@ -11,13 +12,14 @@ namespace TFI.PrimerParcial.Controllers
     public class FileController : BaseApiController
     {
         private readonly IRepository<FileUploadInfo> repository;
+        private readonly IWorkerService<UploadFileDto> worker;
+        private readonly IConfiguration config;
 
-        private readonly IWorkerService worker;
-
-        public FileController(IRepository<FileUploadInfo> repository, IWorkerService worker)
+        public FileController(IRepository<FileUploadInfo> repository, IWorkerService<UploadFileDto> worker, IConfiguration config)
         {
             this.repository = repository;
             this.worker = worker;
+            this.config = config;
         }
 
         [HttpPost("UploadFiles")]
@@ -30,7 +32,7 @@ namespace TFI.PrimerParcial.Controllers
                     return BadRequest();
                 }
 
-                await worker.SendToQueue(uploadFileDto);
+                await worker.SendToQueue(uploadFileDto, config["RabbitMQ:FileQueue"]);
 
                 return Ok();
             }

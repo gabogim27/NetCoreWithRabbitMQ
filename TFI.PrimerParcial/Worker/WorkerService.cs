@@ -1,27 +1,23 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using TFI.PrimerParcial.Dtos;
+using MassTransit;
 
 namespace TFI.PrimerParcial.Worker
 {
-    public class WorkerService : IWorkerService
+    public class WorkerService<T> : IWorkerService<T> where T : class
     {
         private readonly IBus bus;
-        private readonly IConfiguration config;
 
-        public WorkerService(IBus bus, IConfiguration config)
+        public WorkerService(IBus bus)
         {
             this.bus = bus;
-            this.config = config;
         }
 
-        public async Task SendToQueue(UploadFileDto uploadFileDto)
+        public async Task SendToQueue(T data, string queue)
         {
-            var uri = new Uri(config["RabbitMQ:FileQueue"]);
+            var uri = new Uri(queue);
             var endpoint = await bus.GetSendEndpoint(uri);
-            await endpoint.Send(uploadFileDto);
+            await endpoint.Send(data);
         }
     }
 }
