@@ -3,8 +3,8 @@ using TFI.PrimerParcial.Dtos;
 
 namespace TFI.PrimerParcial.Worker
 {
-    public interface IWorker
+    public interface IWorkerService
     {
-        Task sendToQueue(UploadFileDto uploadFileDto);
+        Task SendToQueue(UploadFileDto uploadFileDto);
     }
 }

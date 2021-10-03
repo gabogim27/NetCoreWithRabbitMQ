@@ -5,22 +5,24 @@ using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
 using TFI.PrimerParcial.Worker;
+using MassTransit;
 
 namespace TFI.PrimerParcial.Controllers
 {
     public class FileController : BaseApiController
     {
         private readonly IRepository<FileUploadInfo> repository;
-        private readonly IWorker worker;
 
-        public FileController(IRepository<FileUploadInfo> repository, IWorker worker)
+        private readonly IWorkerService worker;
+
+        public FileController(IRepository<FileUploadInfo> repository, IWorkerService worker)
         {
             this.repository = repository;
             this.worker = worker;
         }
 
         [HttpPost("UploadFiles")]
-        public async Task<ActionResult<bool>> UploadFiles(UploadFileDto uploadFileDto)
+        public async Task<ActionResult<bool>> UploadFiles([FromBody] UploadFileDto uploadFileDto)
         {
             try
             {
@@ -29,7 +31,7 @@ namespace TFI.PrimerParcial.Controllers
                     return BadRequest();
                 }
 
-                await worker.sendToQueue(uploadFileDto);
+                await worker.SendToQueue(uploadFileDto);
 
                 return Ok();
             }

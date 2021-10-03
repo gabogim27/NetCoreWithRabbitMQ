@@ -1,6 +1,9 @@
 ﻿using System;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using TFI.PrimerParcial.Source.Repository.Implementations;
+using TFI.PrimerParcial.Source.Repository.Interfaces;
+using TFI.PrimerParcial.Worker;
 
 namespace TFI.PrimerParcial.Extensions
 {
@@ -8,6 +11,8 @@ namespace TFI.PrimerParcial.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IWorkerService, WorkerService>();
             services.AddMassTransit(x =>
             {
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>

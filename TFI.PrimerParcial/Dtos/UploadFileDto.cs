@@ -6,7 +6,9 @@ namespace TFI.PrimerParcial.Dtos
     public class UploadFileDto
     {
         public int Priority { get; set; }
-
-        public List<Byte[]> Files { get; set; }
+        public string FileName { get; set; }
+        public string FileSize { get; set; }
+        public string FileType { get; set; }
+        public IList<byte[]> Files { get; set; }
     }
 }
