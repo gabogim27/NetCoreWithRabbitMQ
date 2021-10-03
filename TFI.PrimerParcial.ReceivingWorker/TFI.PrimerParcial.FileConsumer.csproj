@@ -18,6 +18,7 @@
     <ProjectReference Include="..\TFI.PrimerParcial.Domain\TFI.PrimerParcial.Domain.csproj">
       <TreatAsUsed>true</TreatAsUsed>
     </ProjectReference>
+    <ProjectReference Include="..\TFI.PrimerParcial\TFI.PrimerParcial.csproj" />
   </ItemGroup>
 
 </Project>

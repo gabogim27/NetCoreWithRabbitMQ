@@ -1,4 +1,6 @@
-﻿using MassTransit;
+﻿using System;
+using GreenPipes;
+using MassTransit;
 using Microsoft.Extensions.Hosting;
 
 namespace TFI.PrimerParcial.ReceivingWorker
@@ -14,14 +16,25 @@ namespace TFI.PrimerParcial.ReceivingWorker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+
                     services.AddMassTransit(x =>
                     {
                         x.AddConsumer<FileConsumer>();
 
-                        x.UsingRabbitMq((context, cfg) =>
+                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                         {
-                            cfg.ConfigureEndpoints(context);
-                        });
+                            cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                            {
+                                h.Username("guest");
+                                h.Password("guest");
+                            });
+                            cfg.ReceiveEndpoint("fileQueue", ep =>
+                            {
+                                ep.PrefetchCount = 16;
+                                ep.UseMessageRetry(r => r.Interval(2, 100));
+                                ep.ConfigureConsumer<FileConsumer>(provider);
+                            });
+                        }));
                     });
                     services.AddMassTransitHostedService();
                 });

@@ -1,7 +1,9 @@
-﻿namespace TFI.PrimerParcial.FileConsumer.Printer
+﻿using TFI.PrimerParcial.Domain;
+
+namespace TFI.PrimerParcial.FileConsumer.Printer
 {
     public interface IPrinter
     {
-        bool SendToPrint();
+        bool SendToPrint(FileUploadInfo file);
     }
 }

@@ -12,6 +12,12 @@ namespace TFI.PrimerParcial.Domain
 
         public DateTime DatabaseUpdated { get; set; }
 
-        public string Status { get; set; }
+        public PrintStatus Status { get; set; }
+
+        public enum PrintStatus
+        {
+            Ok,
+            Failed
+        }
     }
 }
