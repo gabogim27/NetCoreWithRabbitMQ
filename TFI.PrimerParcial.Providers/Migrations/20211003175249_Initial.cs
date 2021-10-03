@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TFI.PrimerParcial.Source.Data.Migrations
+namespace TFI.PrimerParcial.Source.Migrations
 {
-    public partial class MigracionInicial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace TFI.PrimerParcial.Source.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FileName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PrintDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DatabaseUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DatabaseUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

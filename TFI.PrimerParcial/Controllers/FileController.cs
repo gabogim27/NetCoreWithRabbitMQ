@@ -32,7 +32,7 @@ namespace TFI.PrimerParcial.Controllers
                     return BadRequest();
                 }
 
-                await worker.SendToQueue(uploadFileDto, config["RabbitMQ:FileQueue"]);
+                await worker.SendToQueue(uploadFileDto, config["RabbitMQ:FileQueue"], uploadFileDto.Priority);
 
                 return Ok();
             }

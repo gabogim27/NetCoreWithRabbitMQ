@@ -23,11 +23,14 @@ namespace PrintedFileConsumer
             if (context != null)
             {
                 logger.LogInformation($"Received file: {context.Message.FileName} to PrintedFileConsumer.");
+                logger.LogInformation($"Preparing to store in database. {context.Message.FileName}");
 
                 var data = context.Message;
+
                 data.DatabaseUpdated = DateTime.Now;
                 data.Id = Guid.NewGuid();
                 repository.Add(data);
+
                 logger.LogInformation("Saved to database");
             }
 

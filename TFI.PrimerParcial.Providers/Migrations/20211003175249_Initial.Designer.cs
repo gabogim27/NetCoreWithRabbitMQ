@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TFI.PrimerParcial.Source.Data;
 
-namespace TFI.PrimerParcial.Source.Data.Migrations
+namespace TFI.PrimerParcial.Source.Migrations
 {
     [DbContext(typeof(FileInfoDbContext))]
-    partial class FileInfoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211003175249_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,9 @@ namespace TFI.PrimerParcial.Source.Data.Migrations
 
                     b.Property<DateTime>("PrintDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

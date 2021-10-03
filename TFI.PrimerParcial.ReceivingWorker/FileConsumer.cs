@@ -31,14 +31,15 @@ namespace TFI.PrimerParcial.ReceivingWorker
 
                 var fileUpload = new FileUploadInfo()
                 {
-                    FileName = data.FileName
+                    FileName = data.FileName,
+                    Priority = data.Priority
                 };
 
                 var result = printer.SendToPrint(fileUpload);
 
-                if (result)
+                if (true)
                 {
-                    logger.LogInformation("Sending data in databaseQueue");
+                    logger.LogInformation($"Sending data in databaseQueue, priority {fileUpload.Priority}");
                     publisher.Publish(fileUpload);
                 }
             }

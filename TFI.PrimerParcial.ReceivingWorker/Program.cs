@@ -37,7 +37,8 @@ namespace TFI.PrimerParcial.ReceivingWorker
 
                             config.ReceiveEndpoint("fileQueue", ep =>
                             {
-                                ep.PrefetchCount = 16;
+                                ep.EnablePriority(10);
+                                ep.PrefetchCount = 10;
                                 ep.UseMessageRetry(r => r.Interval(2, 100));
                                 ep.ConfigureConsumer<FileConsumer>(provider);
                             });

@@ -41,7 +41,8 @@ namespace PrintedFileConsumer
 
                             cfg.ReceiveEndpoint("databaseQueue", ep =>
                             {
-                                ep.PrefetchCount = 16;
+                                ep.EnablePriority((byte)10);
+                                ep.PrefetchCount = 10;
                                 ep.UseMessageRetry(r => r.Interval(2, 100));
                                 ep.ConfigureConsumer<PrintedFileConsumer>(provider);
                             });

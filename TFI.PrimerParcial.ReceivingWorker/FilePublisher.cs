@@ -18,7 +18,7 @@ namespace TFI.PrimerParcial.FileProcessor
 
         public Task Publish(FileUploadInfo fileUpload)
         {
-            worker.SendToQueue(fileUpload, config["RabbitMQ:DatabaseQueue"]);
+            worker.SendToQueue(fileUpload, config["RabbitMQ:DatabaseQueue"], fileUpload.Priority);
 
             return Task.CompletedTask;
         }
