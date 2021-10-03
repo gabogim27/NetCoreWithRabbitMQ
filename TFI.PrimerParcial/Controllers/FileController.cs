@@ -5,7 +5,6 @@ using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
 using TFI.PrimerParcial.Worker;
-using MassTransit;
 
 namespace TFI.PrimerParcial.Controllers
 {
@@ -26,7 +25,7 @@ namespace TFI.PrimerParcial.Controllers
         {
             try
             {
-                if (uploadFileDto == null || uploadFileDto.Priority <= 0)
+                if (uploadFileDto == null || uploadFileDto.Priority <= 0 || string.IsNullOrWhiteSpace(uploadFileDto.FileName) )
                 {
                     return BadRequest();
                 }
