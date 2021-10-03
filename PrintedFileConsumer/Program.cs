@@ -1,19 +1,18 @@
-﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using TFI.PrimerParcial.Domain;
-using TFI.PrimerParcial.Source.Data;
-using Microsoft.Extensions.DependencyInjection;
-using TFI.PrimerParcial.Source.Repository.Implementations;
-using GreenPipes;
-using Microsoft.Extensions.Configuration;
+﻿using System;
 using System.IO;
+using GreenPipes;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using TFI.PrimerParcial.Source.Data;
+using TFI.PrimerParcial.Source.Repository.Implementations;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
 
 namespace PrintedFileConsumer
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -39,6 +38,7 @@ namespace PrintedFileConsumer
                                 h.Username("guest");
                                 h.Password("guest");
                             });
+
                             cfg.ReceiveEndpoint("databaseQueue", ep =>
                             {
                                 ep.PrefetchCount = 16;

@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using MassTransit;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
 using TFI.PrimerParcial.FileConsumer.Printer;
-using TFI.PrimerParcial.Worker;
+using TFI.PrimerParcial.FileProcessor;
 
 namespace TFI.PrimerParcial.ReceivingWorker
 {
@@ -13,15 +12,13 @@ namespace TFI.PrimerParcial.ReceivingWorker
     {
         private readonly ILogger<FileConsumer> logger;
         private readonly IPrinter printer;
-        private readonly IWorkerService<FileUploadInfo> worker;
-        private readonly IConfiguration config;
+        private readonly IFilePublisher publisher;
 
-        public FileConsumer(ILogger<FileConsumer> logger, IPrinter printer, IWorkerService<FileUploadInfo> worker, IConfiguration config)
+        public FileConsumer(ILogger<FileConsumer> logger, IPrinter printer, IFilePublisher publisher)
         {
             this.logger = logger;
             this.printer = printer;
-            this.worker = worker;
-            this.config = config;
+            this.publisher = publisher;
         }
 
         public Task Consume(ConsumeContext<UploadFileDto> context)
@@ -41,7 +38,8 @@ namespace TFI.PrimerParcial.ReceivingWorker
 
                 if (result)
                 {
-                    worker.SendToQueue(fileUpload, config["RabbitMQ:DatabaseQueue"]);
+                    logger.LogInformation("Sending data in databaseQueue");
+                    publisher.Publish(fileUpload);
                 }
             }
 

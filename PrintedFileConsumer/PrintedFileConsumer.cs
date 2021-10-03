@@ -1,7 +1,7 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.Extensions.Logging;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
 
@@ -10,7 +10,6 @@ namespace PrintedFileConsumer
     public class PrintedFileConsumer : IConsumer<FileUploadInfo>
     {
         private readonly IRepository<FileUploadInfo> repository;
-
         private readonly ILogger<PrintedFileConsumer> logger;
 
         public PrintedFileConsumer(IRepository<FileUploadInfo> repository, ILogger<PrintedFileConsumer> logger)
@@ -29,6 +28,7 @@ namespace PrintedFileConsumer
                 data.DatabaseUpdated = DateTime.Now;
                 data.Id = Guid.NewGuid();
                 repository.Add(data);
+                logger.LogInformation("Saved to database");
             }
 
             return Task.CompletedTask;

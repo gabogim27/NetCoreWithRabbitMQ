@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.Source", "TFI.PrimerParcial.Providers\TFI.PrimerParcial.Source.csproj", "{34E8A3C8-961C-47DC-BD37-405C9DC475DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.FileConsumer", "TFI.PrimerParcial.ReceivingWorker\TFI.PrimerParcial.FileConsumer.csproj", "{DC4BC31E-B034-475E-9009-D4BEB983E913}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TFI.PrimerParcial.FileProcessor", "TFI.PrimerParcial.ReceivingWorker\TFI.PrimerParcial.FileProcessor.csproj", "{DC4BC31E-B034-475E-9009-D4BEB983E913}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintedFileConsumer", "PrintedFileConsumer\PrintedFileConsumer.csproj", "{DE4E08D8-1652-420F-82B4-C52DA80E6FC4}"
 EndProject

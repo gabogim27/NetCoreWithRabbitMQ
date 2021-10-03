@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TFI.PrimerParcial.FileConsumer.Printer;
 using TFI.PrimerParcial.Worker;
+using TFI.PrimerParcial.FileProcessor;
 
 namespace TFI.PrimerParcial.ReceivingWorker
 {
@@ -20,6 +21,7 @@ namespace TFI.PrimerParcial.ReceivingWorker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddTransient<IPrinter, Printer>();
+                    services.AddTransient<IFilePublisher, FilePublisher>();
                     services.AddTransient(typeof(IWorkerService<>), typeof(WorkerService<>));
                     services.AddMassTransit(x =>
                     {
