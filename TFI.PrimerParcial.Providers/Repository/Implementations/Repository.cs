@@ -18,6 +18,7 @@ namespace TFI.PrimerParcial.Source.Repository.Implementations
         public void Add(T entity)
         {
             context.Set<T>().Add(entity);
+            context.SaveChanges();
         }
 
         public void Update(T entity)

@@ -1,8 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Source.Data;
+using Microsoft.Extensions.DependencyInjection;
 using TFI.PrimerParcial.Source.Repository.Implementations;
+using GreenPipes;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using TFI.PrimerParcial.Source.Repository.Interfaces;
 
 namespace PrintedFileConsumer
 {
@@ -10,29 +17,37 @@ namespace PrintedFileConsumer
     {
         static void Main(string[] args)
         {
-            var context = GetContext();
-            var repo = new Repository<FileUploadInfo>(context);
-            var obj = new FileUploadInfo 
-            {
-                DatabaseUpdated = DateTime.Now,
-                PrintDate = DateTime.Now.AddHours(-5),
-                FileName = "Testing File",
-                Id = Guid.NewGuid()
-            };
-            repo.Add(obj);
-            context.SaveChanges();
-            Console.WriteLine("Para terminar presione cualquier tecla");
-            Console.ReadKey();
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("config.json", false);
+            var config = builder.Build();
+            CreateHostBuilder(args, config).Build().Run();
         }
 
-        private static FileInfoDbContext GetContext()
-        {
-            var dbOptions = new DbContextOptionsBuilder<FileInfoDbContext>()
-                .UseSqlServer("Server=WS-PF0Y4N5L;Database=FileInfoDb;Trusted_connection=true")
-                .Options;
+        public static IHostBuilder CreateHostBuilder(string[] args, IConfiguration config) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+                    services.AddDbContext<FileInfoDbContext>(o => o.UseSqlServer(config.GetConnectionString("FileInfoDbConnection")));
+                    services.AddMassTransit(x =>
+                    {
+                        x.AddConsumer<PrintedFileConsumer>();
 
-            var db = new FileInfoDbContext(dbOptions);
-            return db;
-        }
+                        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                        {
+                            cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                            {
+                                h.Username("guest");
+                                h.Password("guest");
+                            });
+                            cfg.ReceiveEndpoint("databaseQueue", ep =>
+                            {
+                                ep.PrefetchCount = 16;
+                                ep.UseMessageRetry(r => r.Interval(2, 100));
+                                ep.ConfigureConsumer<PrintedFileConsumer>(provider);
+                            });
+                        }));
+                    });
+                    services.AddMassTransitHostedService();
+                });
     }
 }

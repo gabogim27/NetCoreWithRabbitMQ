@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "FileInfoDbConnection": "Server=WS-PF0Y4N5L;Database=FileInfoDb;Trusted_connection=true"
+  }
+}
