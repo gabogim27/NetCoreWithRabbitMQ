@@ -2,6 +2,9 @@
 using GreenPipes;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using TFI.PrimerParcial.FileConsumer.Printer;
+using TFI.PrimerParcial.Worker;
 
 namespace TFI.PrimerParcial.ReceivingWorker
 {
@@ -16,6 +19,8 @@ namespace TFI.PrimerParcial.ReceivingWorker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddTransient<IPrinter, Printer>();
+                    services.AddTransient<IWorkerService, WorkerService>();
                     services.AddMassTransit(x =>
                     {
                         x.AddConsumer<FileConsumer>();
