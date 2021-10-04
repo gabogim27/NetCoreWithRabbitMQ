@@ -1,0 +1,52 @@
+<div class="text-center mt-5">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Parcial TFI</h1>
+            <p class="lead text-muted">Porfavor presione el boton para cargar sus documentos.</p>
+            <p class="col-12">
+                <input class="form-control" type="file" (change)="onChange($event)">
+                <button (click)="onUpload()" class="btn btn-success mt-3">
+                    Imprimir
+                </button>
+            </p>
+        </div>
+    </section>
+
+    <div class="container" *ngIf="loading">
+        <h3>Cargando...</h3>
+    </div>
+</div>
+
+<div class="row" *ngIf="responseFile">
+    <div class="col-4 text-center">
+        <h3>{{responseFile.fileName}} se envio a la cola de impresion</h3>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="row">
+    <div class=" col-4 offset-md-4 text-center mt-5">
+        <p>Consultar si tu archivo ya fue impreso</p>
+        <input #search class="form-control" type="text">
+        <button (click)="searchDocument(search.value)" class="btn btn-primary mt-3">
+            Buscar
+        </button>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="row " *ngIf="consumedResponseFile">
+    <div class="col-md-4 offset-md-4">
+        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+                <h3 class="mb-0">{{consumedResponseFile.fileName}}</h3>
+                <div class="mb-1 text-muted">{{consumedResponseFile.printDate | date: 'dd/MM/yyyy'}}</div>
+                <p class="card-text mb-auto">Este archivo se imprimio correctamente.</p>
+                <p>La actualizacion de la base de datos fue la fecha {{consumedResponseFile.databaseUpdated | date: 'dd/MM/yyyy'}} </p>
+            </div>
+            <img class="card-img-right flex-auto d-none d-md-block" data-src="https://www.facturasweb.co/img/listo.png" style="width: 200px; height: 250px;" src="https://www.facturasweb.co/img/listo.png" data-holder-rendered="true">
+        </div>
+    </div>
+</div>
