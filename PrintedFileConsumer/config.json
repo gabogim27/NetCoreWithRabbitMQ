@@ -1,5 +1,0 @@
-{
-    "ConnectionStrings": {
-        "FileInfoDbConnection": "Server=HXNB-NAZZARA;Database=FileInfoDb;Trusted_connection=true"
-    }
-}
