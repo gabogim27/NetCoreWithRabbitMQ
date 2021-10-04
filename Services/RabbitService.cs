@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Entities;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -32,8 +33,9 @@ namespace Services
             return Task.CompletedTask;
         }
 
-        public string ConsumeFromQueue(string queue)
+        public File ConsumeFromQueue(string queue)
         {
+            var file = new File();
             var factory = CreateFactory();
             var arguments = new Dictionary<string, object>();
             arguments.Add("x-max-priority", 10);
@@ -44,22 +46,24 @@ namespace Services
                 channel.QueueDeclare(queue, false, false, false, arguments);
                 var consumer = new EventingBasicConsumer(channel);
 
-                consumer.Received += (model, ea) =>
+                BasicGetResult result = channel.BasicGet(queue, true);
+
+                if (result != null)
                 {
-                    var body = ea.Body.ToArray();
+                    var body = result.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
-                };
+                    file = JsonConvert.DeserializeObject<File>(message);
+                }
 
                 channel.BasicConsume(queue, autoAck: true, consumer: consumer);
             }
 
-            return "";
+            return file;
         }
-
 
         private ConnectionFactory CreateFactory()
         {
-            return new ConnectionFactory() { HostName = "localhost" };
+            return new ConnectionFactory() { HostName = "localhost", UserName = "guest", Password = "guest" };
         }
     }
 }

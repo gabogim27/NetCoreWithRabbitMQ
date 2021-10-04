@@ -28,21 +28,19 @@ namespace Processor
 
         public Task Consume()
         {
-            rabbitService.ConsumeFromQueue("fileQueue");
+            var context = rabbitService.ConsumeFromQueue("fileQueue");
 
-            //logger.LogInformation($"Start consuming file {context.Message.FileName}");
+            logger.LogInformation($"Start consuming file {context.FileName} priority: {context.Priority}");
 
-            //var recivedData = context.Message;
+            var consumedFile = new ConsumedFile() { Priority = context.Priority, FileName = context.FileName };
 
-            //var consumedFile = new ConsumedFile() { Priority = recivedData.Priority, FileName = recivedData.FileName };
+            var result = printer.SendToPrint(consumedFile);
 
-            //var result = printer.SendToPrint(consumedFile);
-
-            //if (result)
-            //{
-            //    logger.LogInformation($"Sending data in dbQueue");
-            //    publisher.Publish(consumedFile);
-            //}
+            if (result)
+            {
+                logger.LogInformation($"Sending data in dbQueue");
+                publisher.Publish(consumedFile);
+            }
 
             return Task.CompletedTask;
         }
