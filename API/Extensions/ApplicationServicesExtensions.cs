@@ -1,6 +1,4 @@
-﻿using System;
-using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Repository.Interfaces;
 using Services;
@@ -14,19 +12,6 @@ namespace TFI.PrimerParcial.Extensions
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IRabbitService<>), typeof(RabbitService<>));
-
-            services.AddMassTransit(x =>
-            {
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
-                {
-                    config.Host(new Uri("rabbitmq://localhost"), h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                }));
-            });
-            services.AddMassTransitHostedService();
 
             return services;
         }
