@@ -40,7 +40,6 @@ namespace PrintedFileConsumer
 
                             cfg.ReceiveEndpoint("dbQueue", ep =>
                             {
-                                ep.EnablePriority(10);
                                 ep.UseMessageRetry(r => r.Interval(2, 100));
                                 ep.ConfigureConsumer<PrintedConsumer>(provider);
                             });

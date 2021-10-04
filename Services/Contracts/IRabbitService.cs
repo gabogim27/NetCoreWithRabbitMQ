@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Entities;
 
 namespace Services.Contracts
@@ -7,6 +8,6 @@ namespace Services.Contracts
     {
         Task SendToQueue(T data, string queue, int priority);
 
-        File ConsumeFromQueue(string queue);
+        List<File> ConsumeFromQueue(string queue);
     }
 }

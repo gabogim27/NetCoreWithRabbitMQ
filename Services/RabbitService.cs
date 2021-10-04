@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Entities;
 using Newtonsoft.Json;
@@ -24,7 +25,7 @@ namespace Services
             using (var channel = connection.CreateModel())
             {
                 var properties = channel.CreateBasicProperties();
-                properties.Priority = Convert.ToByte(10);
+                properties.Priority = Convert.ToByte(priority);
 
                 channel.QueueDeclare(queue, false, false, false, arguments);
                 channel.BasicPublish("", queue, properties, body: body);
@@ -33,9 +34,11 @@ namespace Services
             return Task.CompletedTask;
         }
 
-        public File ConsumeFromQueue(string queue)
+        public List<File> ConsumeFromQueue(string queue)
         {
             var file = new File();
+            var result = new List<File>();
+            var message = string.Empty;
             var factory = CreateFactory();
             var arguments = new Dictionary<string, object>();
             arguments.Add("x-max-priority", 10);
@@ -46,19 +49,24 @@ namespace Services
                 channel.QueueDeclare(queue, false, false, false, arguments);
                 var consumer = new EventingBasicConsumer(channel);
 
-                BasicGetResult result = channel.BasicGet(queue, true);
-
-                if (result != null)
+                consumer.Received += (sender, e) =>
                 {
-                    var body = result.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    file = JsonConvert.DeserializeObject<File>(message);
-                }
+                    var body = e.Body.ToArray();
+                    message = Encoding.UTF8.GetString(body);
+
+                    if (!string.IsNullOrEmpty(message))
+                    {
+                        Console.WriteLine($"recived: {message}");
+                        file = JsonConvert.DeserializeObject<File>(message);
+                        result.Add(file);
+                    }
+                };
 
                 channel.BasicConsume(queue, autoAck: true, consumer: consumer);
+                Console.WriteLine("Wait messages...");
+                Console.ReadLine();
             }
-
-            return file;
+            return result;
         }
 
         private ConnectionFactory CreateFactory()

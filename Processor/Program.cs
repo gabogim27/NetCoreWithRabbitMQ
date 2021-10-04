@@ -17,6 +17,8 @@ namespace Processor
             CreateHostBuilder(args).Build();
             var scope = serviceProvider.CreateScope();
             scope.ServiceProvider.GetRequiredService<Consumer>().Consume();
+            Console.WriteLine("Process finished");
+            Console.ReadLine();
             DisposeServices();
         }
 

@@ -7,7 +7,7 @@ using Services.Contracts;
 
 namespace Processor
 {
-    public class Consumer 
+    public class Consumer
     {
         private readonly ILogger<Consumer> logger;
         private readonly IPrinter printer;
@@ -30,18 +30,20 @@ namespace Processor
         {
             var context = rabbitService.ConsumeFromQueue("fileQueue");
 
-            logger.LogInformation($"Start consuming file {context.FileName} priority: {context.Priority}");
-
-            var consumedFile = new ConsumedFile() { Priority = context.Priority, FileName = context.FileName };
-
-            var result = printer.SendToPrint(consumedFile);
-
-            if (result)
+            foreach (var item in context)
             {
-                logger.LogInformation($"Sending data in dbQueue");
-                publisher.Publish(consumedFile);
-            }
+                logger.LogInformation($"Start consuming file {item.FileName} priority: {item.Priority}");
 
+                var consumedFile = new ConsumedFile() { Priority = item.Priority, FileName = item.FileName };
+
+                var result = printer.SendToPrint(consumedFile);
+
+                if (result)
+                {
+                    logger.LogInformation($"Sending data in dbQueue");
+                    publisher.Publish(consumedFile);
+                }
+            }
             return Task.CompletedTask;
         }
     }
