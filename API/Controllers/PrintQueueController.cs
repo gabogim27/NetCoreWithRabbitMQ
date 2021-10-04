@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +28,25 @@ namespace TFI.PrimerParcial.Controllers
         [HttpPost("SendFiles")]
         public async Task<ActionResult<bool>> SendFiles([FromBody] File file)
         {
+            var fileExist = repository.GetByName(file.FileName);
+
+            if (fileExist != null)
+            {
+                var last = repository.GetList(file.FileName).OrderBy(x => x.FileName).Last();
+
+                if (last.FileName.Contains("_"))
+                {
+                    var number = Convert.ToInt32(last.FileName.Substring(last.FileName.Length - 1));
+                    number++;
+                    file.FileName = $"{file.FileName}_{number}";
+                }
+
+                if (last == null)
+                {
+                    file.FileName = $"{file.FileName}_1";
+                }
+            }
+
             if (file != null && file.Priority > 0 && !string.IsNullOrWhiteSpace(file.FileName))
             {
                 await rabbit.SendToQueue(file, config["RabbitMQ:FileQueue"], file.Priority);

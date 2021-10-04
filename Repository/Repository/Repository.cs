@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Entities;
 using Repository.Interfaces;
 
@@ -22,6 +23,11 @@ namespace Repository
         public ConsumedFile GetByName(string name)
         {
             return context.ConsumedFiles.Where(x => x.FileName == name).FirstOrDefault();
+        }
+
+        public List<ConsumedFile> GetList(string name)
+        {
+            return context.ConsumedFiles.ToList();
         }
     }
 }

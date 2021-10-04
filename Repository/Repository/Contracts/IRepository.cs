@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System.Collections.Generic;
+using Entities;
 
 namespace Repository.Interfaces
 {
@@ -7,5 +8,7 @@ namespace Repository.Interfaces
         void Add(T entity);
 
         ConsumedFile GetByName(string name);
+
+        List<ConsumedFile> GetList(string name);
     }
 }
