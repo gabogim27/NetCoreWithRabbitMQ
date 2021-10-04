@@ -34,6 +34,13 @@ namespace TFI.PrimerParcial
             {
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "PrinterQueue API", Version = "v1" });
             });
+
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("CorsPolicy", policy =>
+                policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +57,7 @@ namespace TFI.PrimerParcial
                 app.UseHsts();
             }
 
+            app.UseCors("CorsPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PrinterQueue API v1"));
 
