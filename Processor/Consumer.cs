@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Entities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Processor.Contracts;
 using Processor.Printer.Contracts;
 using Services.Contracts;
@@ -30,8 +31,10 @@ namespace Processor
         {
             var context = rabbitService.ConsumeFromQueue("fileQueue");
 
-            foreach (var item in context)
+            foreach (var serializedItem in context)
             {
+                var item = JsonConvert.DeserializeObject<File>(serializedItem);
+
                 logger.LogInformation($"Start consuming file {item.FileName} priority: {item.Priority}");
 
                 var consumedFile = new ConsumedFile() { Priority = item.Priority, FileName = item.FileName };

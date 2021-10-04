@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Entities;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -34,10 +32,9 @@ namespace Services
             return Task.CompletedTask;
         }
 
-        public List<File> ConsumeFromQueue(string queue)
+        public List<string> ConsumeFromQueue(string queue)
         {
-            var file = new File();
-            var result = new List<File>();
+            var result = new List<string>();
             var message = string.Empty;
             var factory = CreateFactory();
             var arguments = new Dictionary<string, object>();
@@ -57,13 +54,13 @@ namespace Services
                     if (!string.IsNullOrEmpty(message))
                     {
                         Console.WriteLine($"recived: {message}");
-                        file = JsonConvert.DeserializeObject<File>(message);
-                        result.Add(file);
+                        result.Add(message);
                     }
                 };
 
                 channel.BasicConsume(queue, autoAck: true, consumer: consumer);
-                Console.WriteLine("Wait messages...");
+                Console.WriteLine("Wait files...");
+                Console.WriteLine("When finish press enter");
                 Console.ReadLine();
             }
             return result;
