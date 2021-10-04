@@ -28,6 +28,9 @@ namespace TFI.PrimerParcial.Controllers
         [HttpPost("SendFiles")]
         public async Task<ActionResult<bool>> SendFiles([FromBody] File file)
         {
+            var extension = System.IO.Path.GetExtension(file.FileName);
+            file.FileName = file.FileName.Substring(0, file.FileName.Length - extension.Length);
+
             var fileExist = repository.GetByName(file.FileName);
 
             if (fileExist != null)
@@ -41,7 +44,7 @@ namespace TFI.PrimerParcial.Controllers
                     file.FileName = $"{file.FileName}_{number}";
                 }
 
-                if (last == null)
+                if (last == null || !last.FileName.Contains("_") )
                 {
                     file.FileName = $"{file.FileName}_1";
                 }
