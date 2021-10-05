@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TFI.PrimerParcial.RabbitCommon.Interfaces;
 
@@ -24,7 +25,7 @@ namespace TFI.PrimerParcial.RabbitCommon.Implementations
             {
                 var properties = channel.CreateBasicProperties();
                 properties.Priority = Convert.ToByte(priority);
-
+                
                 channel.QueueDeclare(queue, false, false, false, args);
                 channel.BasicPublish("", queue, properties, body: body);
             }

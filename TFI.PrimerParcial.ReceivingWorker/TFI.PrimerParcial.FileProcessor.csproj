@@ -17,4 +17,10 @@
     <ProjectReference Include="..\TFI.PrimerParcial\TFI.PrimerParcial.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

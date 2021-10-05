@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using TFI.PrimerParcial.RabbitCommon.Interfaces;
 
 namespace TFI.PrimerParcial.RabbitCommon.Implementations
@@ -17,6 +18,8 @@ namespace TFI.PrimerParcial.RabbitCommon.Implementations
             var cf = CreateConnection(ParseConnectionString(connString));
             var arguments = new Dictionary<string, object>();
             arguments.Add("x-max-priority", 10);
+            Console.WriteLine("Press enter to start consuming messages...");
+            Console.ReadLine();
             using (var connection = cf.CreateConnection())
             using (var channel = connection.CreateModel())
             {
@@ -38,6 +41,8 @@ namespace TFI.PrimerParcial.RabbitCommon.Implementations
                 channel.BasicConsume(queue, autoAck: true, consumer: consumer);
                 Console.WriteLine("After finished, press enter");
                 Console.ReadLine();
+            
+            
             }
 
             return res;

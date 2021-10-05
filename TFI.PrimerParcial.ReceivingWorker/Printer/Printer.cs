@@ -8,7 +8,6 @@ namespace TFI.PrimerParcial.FileConsumer.Printer
         public bool SendToPrint(FileUploadInfo file)
         {
             file.PrintDate = DateTime.Now;
-
             return new Random().NextDouble() > 0.5;
         }
     }
