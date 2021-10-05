@@ -1,5 +1,11 @@
 {
   "ConnectionStrings": {
     "FileInfoDbConnection": "Server=WS-PF0Y4N5L;Database=FileInfoDb;Trusted_connection=true"
+  },
+  "RabbitConnString": {
+    "connStr": "host=localhost;username=guest;password=guest"
+  },
+  "RabbitMq": {
+    "DatabaseQueue": "rabbitmq://localhost/databaseQueue"
   }
 }

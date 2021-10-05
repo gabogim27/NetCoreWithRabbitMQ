@@ -6,9 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="7.2.2" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="7.2.2" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
@@ -17,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TFI.PrimerParcial.Domain\TFI.PrimerParcial.Domain.csproj" />
     <ProjectReference Include="..\TFI.PrimerParcial.Providers\TFI.PrimerParcial.Source.csproj" />
+    <ProjectReference Include="..\TFI.PrimerParcial.RabbitCommon\TFI.PrimerParcial.RabbitCommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>

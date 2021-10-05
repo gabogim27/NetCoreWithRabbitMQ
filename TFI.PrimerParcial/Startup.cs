@@ -50,6 +50,7 @@ namespace TFI.PrimerParcial
                 app.UseHsts();
             }
 
+            app.UseCors("CorsPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FilePrintUploader API v1"));
 

@@ -1,25 +1,29 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Threading.Tasks;
 using TFI.PrimerParcial.Domain;
 using TFI.PrimerParcial.Dtos;
+using TFI.PrimerParcial.RabbitCommon.Interfaces;
 using TFI.PrimerParcial.Source.Repository.Interfaces;
-using TFI.PrimerParcial.Worker;
+using Microsoft.Extensions.Logging;
+
 
 namespace TFI.PrimerParcial.Controllers
 {
     public class FileController : BaseApiController
     {
         private readonly IRepository<FileUploadInfo> repository;
-        private readonly IWorkerService<UploadFileDto> worker;
+        private readonly IPublisher<UploadFileDto> publisher;
         private readonly IConfiguration config;
+        private readonly ILogger<FileController> logger;
 
-        public FileController(IRepository<FileUploadInfo> repository, IWorkerService<UploadFileDto> worker, IConfiguration config)
+        public FileController(IRepository<FileUploadInfo> repository, IPublisher<UploadFileDto> publisher, IConfiguration config, ILogger<FileController> logger)
         {
             this.repository = repository;
-            this.worker = worker;
+            this.publisher = publisher;
             this.config = config;
+            this.logger = logger;
         }
 
         [HttpPost("UploadFiles")]
@@ -32,13 +36,15 @@ namespace TFI.PrimerParcial.Controllers
                     return BadRequest();
                 }
 
-                await worker.SendToQueue(uploadFileDto, config["RabbitMQ:FileQueue"], uploadFileDto.Priority);
+                var queue = config["RabbitMQ:FileQueue"]; 
+                await publisher.SendToQueue(uploadFileDto, queue.Substring(queue.LastIndexOf('/') + 1), config["RabbitConnString:connStr"], uploadFileDto.Priority);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                throw;
+                logger.LogError("An error occured:", ex);
+                return false;
             }
         }
 
@@ -63,7 +69,8 @@ namespace TFI.PrimerParcial.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                logger.LogError("An error occured:", ex);
+                return false;
             }
         }
     }
